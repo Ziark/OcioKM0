@@ -1,0 +1,11 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
+  better-sqlite3: true
+  bcrypt: true
+  "@prisma/engines": true
+  prisma: true
