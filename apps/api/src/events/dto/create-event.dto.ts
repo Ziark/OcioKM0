@@ -28,12 +28,14 @@ export class CreateEventDto {
   @IsNumber()
   @Min(-90)
   @Max(90)
-  locationLat: number;
+  @IsOptional()
+  locationLat?: number;
 
   @IsNumber()
   @Min(-180)
   @Max(180)
-  locationLng: number;
+  @IsOptional()
+  locationLng?: number;
 
   @IsString()
   @IsNotEmpty()
