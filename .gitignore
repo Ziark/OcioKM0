@@ -72,3 +72,11 @@ docker/postgres/data/
 
 # Misc
 *.tsbuildinfo
+
+# Claude Code local memory (not for public repos)
+.claude/
+
+# TFG document files (kept locally, not tracked in repo)
+memoria_tfg.md
+memoria_tfg.docx
+writting/
