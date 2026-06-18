@@ -7119,8 +7119,8 @@ export namespace Prisma {
     description: string
     startDate: Date
     endDate: Date
-    locationLat: number
-    locationLng: number
+    locationLat: number | null
+    locationLng: number | null
     locationAddr: string
     status: $Enums.EventStatus
     categories: string[]
@@ -7269,8 +7269,8 @@ export namespace Prisma {
       description: string
       startDate: Date
       endDate: Date
-      locationLat: number
-      locationLng: number
+      locationLat: number | null
+      locationLng: number | null
       locationAddr: string
       status: $Enums.EventStatus
       categories: string[]
@@ -17918,8 +17918,8 @@ export namespace Prisma {
     description?: StringFilter<"Event"> | string
     startDate?: DateTimeFilter<"Event"> | Date | string
     endDate?: DateTimeFilter<"Event"> | Date | string
-    locationLat?: FloatFilter<"Event"> | number
-    locationLng?: FloatFilter<"Event"> | number
+    locationLat?: FloatNullableFilter<"Event"> | number | null
+    locationLng?: FloatNullableFilter<"Event"> | number | null
     locationAddr?: StringFilter<"Event"> | string
     status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
     categories?: StringNullableListFilter<"Event">
@@ -17943,8 +17943,8 @@ export namespace Prisma {
     description?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
-    locationLat?: SortOrder
-    locationLng?: SortOrder
+    locationLat?: SortOrderInput | SortOrder
+    locationLng?: SortOrderInput | SortOrder
     locationAddr?: SortOrder
     status?: SortOrder
     categories?: SortOrder
@@ -17971,8 +17971,8 @@ export namespace Prisma {
     description?: StringFilter<"Event"> | string
     startDate?: DateTimeFilter<"Event"> | Date | string
     endDate?: DateTimeFilter<"Event"> | Date | string
-    locationLat?: FloatFilter<"Event"> | number
-    locationLng?: FloatFilter<"Event"> | number
+    locationLat?: FloatNullableFilter<"Event"> | number | null
+    locationLng?: FloatNullableFilter<"Event"> | number | null
     locationAddr?: StringFilter<"Event"> | string
     status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
     categories?: StringNullableListFilter<"Event">
@@ -17996,8 +17996,8 @@ export namespace Prisma {
     description?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
-    locationLat?: SortOrder
-    locationLng?: SortOrder
+    locationLat?: SortOrderInput | SortOrder
+    locationLng?: SortOrderInput | SortOrder
     locationAddr?: SortOrder
     status?: SortOrder
     categories?: SortOrder
@@ -18023,8 +18023,8 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Event"> | string
     startDate?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"Event"> | Date | string
-    locationLat?: FloatWithAggregatesFilter<"Event"> | number
-    locationLng?: FloatWithAggregatesFilter<"Event"> | number
+    locationLat?: FloatNullableWithAggregatesFilter<"Event"> | number | null
+    locationLng?: FloatNullableWithAggregatesFilter<"Event"> | number | null
     locationAddr?: StringWithAggregatesFilter<"Event"> | string
     status?: EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
     categories?: StringNullableListFilter<"Event">
@@ -18907,8 +18907,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -18932,8 +18932,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -18955,8 +18955,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -18980,8 +18980,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -19004,8 +19004,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -19022,8 +19022,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -19041,8 +19041,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -19934,15 +19934,15 @@ export namespace Prisma {
     websiteUrl?: SortOrder
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type EnumEventStatusFilter<$PrismaModel = never> = {
@@ -20040,20 +20040,20 @@ export namespace Prisma {
     maxAttendees?: SortOrder
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type EnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -20087,17 +20087,6 @@ export namespace Prisma {
     in?: $Enums.ParticipantStatus[] | ListEnumParticipantStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ParticipantStatus[] | ListEnumParticipantStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumParticipantStatusFilter<$PrismaModel> | $Enums.ParticipantStatus
-  }
-
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type EventScalarRelationFilter = {
@@ -20176,22 +20165,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumParticipantStatusFilter<$PrismaModel>
     _max?: NestedEnumParticipantStatusFilter<$PrismaModel>
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type EventParticipantScalarRelationFilter = {
@@ -21122,8 +21095,8 @@ export namespace Prisma {
     connect?: UserFollowWhereUniqueInput | UserFollowWhereUniqueInput[]
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -21315,14 +21288,6 @@ export namespace Prisma {
 
   export type EnumParticipantStatusFieldUpdateOperationsInput = {
     set?: $Enums.ParticipantStatus
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type EventUpdateOneRequiredWithoutParticipantsNestedInput = {
@@ -21691,15 +21656,15 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumEventStatusFilter<$PrismaModel = never> = {
@@ -21709,20 +21674,20 @@ export namespace Prisma {
     not?: NestedEnumEventStatusFilter<$PrismaModel> | $Enums.EventStatus
   }
 
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumEventStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -21751,17 +21716,6 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedEnumParticipantStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ParticipantStatus | EnumParticipantStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ParticipantStatus[] | ListEnumParticipantStatusFieldRefInput<$PrismaModel>
@@ -21779,22 +21733,6 @@ export namespace Prisma {
     _max?: NestedEnumParticipantStatusFilter<$PrismaModel>
   }
 
-  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -21809,6 +21747,17 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -22377,8 +22326,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -22400,8 +22349,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -22526,8 +22475,8 @@ export namespace Prisma {
     description?: StringFilter<"Event"> | string
     startDate?: DateTimeFilter<"Event"> | Date | string
     endDate?: DateTimeFilter<"Event"> | Date | string
-    locationLat?: FloatFilter<"Event"> | number
-    locationLng?: FloatFilter<"Event"> | number
+    locationLat?: FloatNullableFilter<"Event"> | number | null
+    locationLng?: FloatNullableFilter<"Event"> | number | null
     locationAddr?: StringFilter<"Event"> | string
     status?: EnumEventStatusFilter<"Event"> | $Enums.EventStatus
     categories?: StringNullableListFilter<"Event">
@@ -23038,8 +22987,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23062,8 +23011,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23161,8 +23110,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -23185,8 +23134,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -23334,8 +23283,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23358,8 +23307,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23396,8 +23345,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -23420,8 +23369,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -23442,8 +23391,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23466,8 +23415,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23541,8 +23490,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -23565,8 +23514,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -23698,8 +23647,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23722,8 +23671,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23840,8 +23789,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -23864,8 +23813,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -23966,8 +23915,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -23990,8 +23939,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -24055,8 +24004,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -24079,8 +24028,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -24310,8 +24259,8 @@ export namespace Prisma {
     description: string
     startDate: Date | string
     endDate: Date | string
-    locationLat: number
-    locationLng: number
+    locationLat?: number | null
+    locationLng?: number | null
     locationAddr: string
     status?: $Enums.EventStatus
     categories?: EventCreatecategoriesInput | string[]
@@ -24338,8 +24287,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -24361,8 +24310,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]
@@ -24384,8 +24333,8 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    locationLat?: FloatFieldUpdateOperationsInput | number
-    locationLng?: FloatFieldUpdateOperationsInput | number
+    locationLat?: NullableFloatFieldUpdateOperationsInput | number | null
+    locationLng?: NullableFloatFieldUpdateOperationsInput | number | null
     locationAddr?: StringFieldUpdateOperationsInput | string
     status?: EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
     categories?: EventUpdatecategoriesInput | string[]

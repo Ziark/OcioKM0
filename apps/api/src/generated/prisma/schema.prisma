@@ -116,8 +116,8 @@ model Event {
   description   String
   startDate     DateTime
   endDate       DateTime
-  locationLat   Float
-  locationLng   Float
+  locationLat   Float?
+  locationLng   Float?
   locationAddr  String
   status        EventStatus @default(DRAFT)
   categories    String[]
