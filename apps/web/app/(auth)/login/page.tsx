@@ -39,9 +39,10 @@ export default function LoginPage() {
   };
 
   return (
-    <Card className="w-full max-w-sm shadow-lg">
-      <CardHeader>
-        <CardTitle className="text-2xl text-center">OcioKM0</CardTitle>
+    <Card className="w-full max-w-sm shadow-xl border-2 border-zinc-200 bg-white">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-3xl font-bold text-center text-zinc-900">OcioKM0</CardTitle>
+        <p className="text-center text-sm text-zinc-500 mt-1">Inicia sesión en tu cuenta</p>
       </CardHeader>
       <CardContent>
         <form onSubmit={(e) => void handleSubmit(e)} className="space-y-4">
