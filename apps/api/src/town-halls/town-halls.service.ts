@@ -1,5 +1,5 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { EventStatus } from '../../generated/prisma';
+﻿import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { EventStatus } from '../generated/prisma';
 import { PrismaService } from '../common/prisma.service';
 import type { UpdateTownHallDto } from './dto/update-town-hall.dto';
 

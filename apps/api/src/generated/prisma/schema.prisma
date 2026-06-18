@@ -1,0 +1,247 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum Role {
+  USER
+  ARTISAN
+  TOWN_HALL
+  SUPER_ADMIN
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum ParticipantStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AlertType {
+  WEATHER
+  CANCELLATION
+  SCHEDULE_CHANGE
+  GENERAL
+}
+
+enum AttendeeStatus {
+  INTERESTED
+  GOING
+  ATTENDED
+}
+
+// ─── User ────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  verified     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  profile       UserProfile?
+  townHall      TownHall?
+  artisan       Artisan?
+  attendances   EventAttendee[]
+  follows       UserFollow[]
+  preferences   UserPreferences?
+  notifications Notification[]
+}
+
+model UserProfile {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  displayName String
+  avatarUrl   String?
+  bio         String?
+}
+
+// ─── Town Hall ───────────────────────────────────────────────────────────────
+
+model TownHall {
+  id           String  @id @default(cuid())
+  userId       String  @unique
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  municipality String
+  province     String
+  logoUrl      String?
+  verified     Boolean @default(false)
+
+  events Event[]
+  alerts Alert[]
+}
+
+// ─── Artisan ─────────────────────────────────────────────────────────────────
+
+model Artisan {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessName String
+  description  String?
+  categories   String[]
+  km0Certified Boolean  @default(false)
+  verifiedById String?
+  logoUrl      String?
+  websiteUrl   String?
+
+  participants EventParticipant[]
+  followers    UserFollow[]
+}
+
+// ─── Event ───────────────────────────────────────────────────────────────────
+
+model Event {
+  id            String      @id @default(cuid())
+  townHallId    String
+  townHall      TownHall    @relation(fields: [townHallId], references: [id])
+  title         String
+  description   String
+  startDate     DateTime
+  endDate       DateTime
+  locationLat   Float
+  locationLng   Float
+  locationAddr  String
+  status        EventStatus @default(DRAFT)
+  categories    String[]
+  coverImageUrl String?
+  maxAttendees  Int?
+  isTemplate    Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  participants EventParticipant[]
+  attendees    EventAttendee[]
+  venueMap     VenueMap?
+  alerts       Alert[]
+  follows      UserFollow[]
+}
+
+// ─── Event Participant (Artisan in an Event) ──────────────────────────────────
+
+model EventParticipant {
+  id        String            @id @default(cuid())
+  eventId   String
+  event     Event             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  artisanId String
+  artisan   Artisan           @relation(fields: [artisanId], references: [id])
+  status    ParticipantStatus @default(PENDING)
+  boothCode String?
+  positionX Float?
+  positionY Float?
+  createdAt DateTime          @default(now())
+
+  products EventProduct[]
+
+  @@unique([eventId, artisanId])
+}
+
+model EventProduct {
+  id            String           @id @default(cuid())
+  participantId String
+  participant   EventParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?
+  price         Float?
+  category      String
+  km0Certified  Boolean          @default(false)
+  imageUrl      String?
+}
+
+// ─── Venue Map ───────────────────────────────────────────────────────────────
+
+model VenueMap {
+  id       String @id @default(cuid())
+  eventId  String @unique
+  event    Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  imageUrl String
+  widthPx  Int
+  heightPx Int
+  zones    Json?
+}
+
+// ─── Event Attendee ───────────────────────────────────────────────────────────
+
+model EventAttendee {
+  id        String         @id @default(cuid())
+  eventId   String
+  event     Event          @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    AttendeeStatus @default(GOING)
+  createdAt DateTime       @default(now())
+
+  @@unique([eventId, userId])
+}
+
+// ─── User Follow ──────────────────────────────────────────────────────────────
+
+model UserFollow {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  artisanId String?
+  artisan   Artisan? @relation(fields: [artisanId], references: [id], onDelete: Cascade)
+  eventId   String?
+  event     Event?   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+// ─── Notification ─────────────────────────────────────────────────────────────
+
+model Notification {
+  id          String   @id @default(cuid())
+  recipientId String
+  recipient   User     @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  type        String
+  title       String
+  body        String
+  data        Json?
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+// ─── Alert ────────────────────────────────────────────────────────────────────
+
+model Alert {
+  id         String    @id @default(cuid())
+  eventId    String
+  event      Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  townHallId String
+  townHall   TownHall  @relation(fields: [townHallId], references: [id])
+  type       AlertType
+  title      String
+  message    String
+  severity   Int       @default(1)
+  createdAt  DateTime  @default(now())
+}
+
+// ─── User Preferences ─────────────────────────────────────────────────────────
+
+model UserPreferences {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favoriteCategories String[]
+  maxDistanceKm      Float?
+  language           String   @default("es")
+  pushEnabled        Boolean  @default(true)
+  emailAlerts        Boolean  @default(true)
+}

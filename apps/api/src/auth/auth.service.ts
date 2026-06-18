@@ -1,4 +1,4 @@
-import {
+﻿import {
   BadRequestException,
   ConflictException,
   Injectable,
@@ -11,7 +11,7 @@ import { PrismaService } from '../common/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { JwtPayload } from './strategies/jwt.strategy';
-import { Role } from '../../generated/prisma';
+import { Role } from '../generated/prisma';
 
 const SALT_ROUNDS = 12;
 

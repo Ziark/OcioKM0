@@ -1,5 +1,5 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { AttendeeStatus, Prisma } from '../../generated/prisma';
+﻿import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { AttendeeStatus, Prisma } from '../generated/prisma';
 import { PrismaService } from '../common/prisma.service';
 import { RealtimeGateway } from '../realtime/realtime.gateway';
 import type { CreateAlertDto } from './dto/create-alert.dto';

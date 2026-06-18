@@ -1,5 +1,5 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma, ParticipantStatus } from '../../generated/prisma';
+﻿import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma, ParticipantStatus } from '../generated/prisma';
 import { PrismaService } from '../common/prisma.service';
 import type { ListArtisansDto } from './dto/list-artisans.dto';
 import type { UpdateArtisanDto } from './dto/update-artisan.dto';

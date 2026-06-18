@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
+﻿import { Body, Controller, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
 import { ArtisansService } from './artisans.service';
 import { ListArtisansDto } from './dto/list-artisans.dto';
 import { UpdateArtisanDto } from './dto/update-artisan.dto';
@@ -6,7 +6,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import { Role } from '../../generated/prisma';
+import { Role } from '../generated/prisma';
 import type { JwtPayload } from '../auth/strategies/jwt.strategy';
 
 @Controller('artisans')

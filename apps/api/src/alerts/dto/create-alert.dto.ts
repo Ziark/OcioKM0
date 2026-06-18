@@ -1,5 +1,5 @@
-import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, Max, Min } from 'class-validator';
-import { AlertType } from '../../../generated/prisma';
+﻿import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, Max, Min } from 'class-validator';
+import { AlertType } from '../../generated/prisma';
 
 export class CreateAlertDto {
   @IsEnum(AlertType)

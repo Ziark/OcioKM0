@@ -1,10 +1,10 @@
-import {
+﻿import {
   BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { AttendeeStatus, EventStatus, Prisma } from '../../generated/prisma';
+import { AttendeeStatus, EventStatus, Prisma } from '../generated/prisma';
 import { PrismaService } from '../common/prisma.service';
 import type { CreateEventDto } from './dto/create-event.dto';
 import type { UpdateEventDto } from './dto/update-event.dto';
