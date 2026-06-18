@@ -5,7 +5,7 @@
 ---
 
 ## Last Updated
-2026-06-18 — Phase 2 complete (commits 7338aec · 65239d5 · fc6c864)
+2026-06-18 — Session 3 complete (API fixed, web dashboard working, mobile shells done)
 
 ---
 
@@ -14,10 +14,10 @@
 ### Architecture & Planning
 - [x] `CLAUDE.md` — Full project directives (quality rules, RBAC model, memory protocol, conventions)
 - [x] Tech stack selected (all free tier — see Decisions)
-- [x] Database schema designed (see memory `project_ociokm0_schema.md`)
-- [x] Sub-agent strategy proposed (5 phases, see memory `project_ociokm0_agents.md`)
+- [x] Database schema designed
+- [x] Sub-agent strategy proposed (5 phases)
 
-### Phase 0 — Monorepo Scaffold ✅ (commit 41aef8a)
+### Phase 0 — Monorepo Scaffold ✅
 - [x] pnpm workspace with `allowBuilds` for sharp/bcrypt/prisma/esbuild/unrs-resolver
 - [x] `apps/api` — NestJS 11 (TypeScript, CommonJS)
 - [x] `apps/mobile` — Expo SDK 56 + Expo Router v3
@@ -26,165 +26,98 @@
 - [x] `docker-compose.yml` — PostgreSQL 16 + Redis 7
 - [x] All 4 packages typecheck clean
 
-### Phase 1 — Database & Auth Foundation ✅ (commit 05fedf9)
-- [x] Prisma 7 schema: 13 models, all enums, `prisma-client-js` generator → `generated/prisma/`
-- [x] `prisma.config.ts` with datasource URL + seed config (Prisma 7 split config)
-- [x] Migration `20260617210042_init` applied against PostgreSQL 16 in Docker
-- [x] Idempotent seed: TownHall, 2 Artisans, 3 Users, 1 Event, VenueMap, participants, products, attendees, follows
+### Phase 1 — Database & Auth Foundation ✅
+- [x] Prisma 7 schema: 13 models, all enums, generator → `src/generated/prisma/`
+- [x] Migration `20260617210042_init` applied
+- [x] Migration `20260618160803_nullable_location_coords` applied (locationLat/Lng now Float?)
+- [x] Idempotent seed in Spanish: TownHall, 2 Artisans, 3 Users, 1 Event, VenueMap, participants, products, attendees, follows
 - [x] `PrismaService` (NestJS, global module) with `@prisma/adapter-pg` driver adapter
 - [x] Full auth module: register / login / refresh / me
 - [x] JWT access (15m) + refresh (7d), bcrypt 12 rounds
 - [x] Guards: `JwtAuthGuard`, `JwtRefreshGuard`, `RolesGuard`
 - [x] Decorators: `@Roles()`, `@CurrentUser()`
-- [x] ConfigModule global, ValidationPipe global, CORS configured
+
+### Phase 2 — Core API Modules ✅
+
+**Track A — Events**
+- [x] `EventsModule`: list (PUBLISHED+ACTIVE, filtered, paginated), get-by-id, create, update, publish, cancel, RSVP, venue map upsert/get
+- [x] `TownHallsModule`: getMe, updateMe, `GET /town-halls/me/events` (all statuses incl. DRAFT), listArtisans, KM0 certify/revoke
+- [x] `EventParticipantsModule`: apply, list-approved (public), list-all (TOWN_HALL), review, withdraw, set booth pin
+
+**Track B — Artisans & Products**
+- [x] `ArtisansModule`: list (search, km0Only filter, paginated), findOne, getMe, updateMe
+- [x] `ProductsModule`: list (public), create/update/delete (ARTISAN, ownership-guarded)
+
+**Track C — Realtime**
+- [x] `RealtimeGateway`: Socket.io, join_event/leave_event rooms, broadcastAlert helper
+- [x] `AlertsModule`: create (TOWN_HALL), list, Socket.io broadcast, Notification records for attendees
+- [x] `NotificationsModule`: list (paginated, unreadOnly), markRead, markAllRead
+
+### Phase 3 — Frontend Shells ✅
+
+**API infrastructure fixes (blocking Phase 3)**
+- [x] Prisma generator output moved to `src/generated/prisma/` so NestJS CLI compiles it into `dist/`
+- [x] All 20 import paths updated across the API
+- [x] Dev runner changed to `node --watch -r ts-node/register` (tsx/esbuild breaks NestJS decorator metadata)
+- [x] CORS open in development (`origin: true` when NODE_ENV !== production)
+- [x] `proxy.ts` replacing deprecated `middleware.ts` (Next.js 16 convention)
+
+**Web dashboard (`apps/web/`)**
+- [x] shadcn/ui installed (manual `components.json`, Tailwind v4 CSS variables in `globals.css`)
+- [x] Zustand auth store (localStorage, login/logout/setUser)
+- [x] axios client with JWT Bearer interceptor + 401 refresh
+- [x] Login page — green theme, black text, Spanish, shadcn Card form
+- [x] Dashboard layout — sidebar with Eventos / Artesanos nav, auth guard
+- [x] Events page — calls `GET /town-halls/me/events` (shows DRAFT too), Spanish status badges
+- [x] New event form — lat/lng optional, Spanish placeholders, `parseFloat` NaN fix
+- [x] Artisans page — card grid, KM0 badge, client-side search
+- [x] Participants page — table with Approve/Reject buttons per event
+
+**Mobile app (`apps/mobile/`)**
+- [x] Zustand auth store with SecureStore persistence
+- [x] axios client with JWT Bearer interceptor + 401 refresh
+- [x] Root layout with QueryClientProvider + AuthGuard (auto-redirect)
+- [x] Login screen + Register screen (role picker: USER | ARTISAN)
+- [x] Tab layout: Home (events), Explore, Notifications, Profile
+- [x] Events tab — FlatList with EventCard, `GET /events`
+- [x] Notifications tab — list, mark-read on press
+- [x] Profile tab — user info, logout button
 
 ---
 
 ## In Progress
 
-Nothing — ready to begin Phase 3 (mobile + web frontend shells).
+Nothing — Phase 3 complete. Ready to start Phase 4 (feature modules) or extend Phase 3 with detail screens.
 
 ---
 
 ## Pending (Ordered by Priority)
 
-### Phase 2 — Core API Modules
+### Short-term — needed for a usable demo
 
-**[EVENTS module]** ✅ Track A complete
-- [x] `EventsModule`: list (PUBLISHED+ACTIVE, filtered by category/date/townHallId, paginated), get-by-id, create, update, publish, cancel
-- [x] `TownHallsModule`: get/update own profile, list events, KM0 certify/revoke artisan
-- [x] `EventParticipantsModule`: apply (ARTISAN), list-approved (public), list-all (TOWN_HALL), review, withdraw, set booth pin
-- [x] Venue map: upsert (TOWN_HALL), get (public) — wired into EventsModule
-- [x] RSVP: create/update/cancel attendance — wired into EventsModule
-- [x] Typecheck: zero errors
-
-**[ARTISANS module]** ✅ Track B complete
-- [x] `ArtisansModule`: list (search, km0Only filter, paginated), findOne (with recent participations), getMe, updateMe
-- [x] `ProductsModule`: list (public), create/update/delete (ARTISAN, ownership-guarded)
-- [x] Typecheck: zero errors
-
-**[REALTIME module]** ✅ Track C complete
-- [x] `@nestjs/websockets`, `@nestjs/platform-socket.io`, `socket.io` installed
-- [x] `RealtimeGateway`: Socket.io gateway, join_event/leave_event rooms, `broadcastAlert()` helper
-- [x] `IoAdapter` wired into `main.ts`
-- [x] `AlertsModule`: create alert (TOWN_HALL, owns event), creates Notification records for all GOING/INTERESTED attendees, emits Socket.io broadcast to `event_${id}` room; list alerts by event (public)
-- [x] `NotificationsModule`: list (paginated, unreadOnly filter, returns unreadCount), markRead, markAllRead
-- [x] FCM push delivery: deferred — schema has no device token field (Phase 4 item)
-- [x] Typecheck: zero errors
-
-### Phase 3 — Frontend Shells (next session — use PARALLEL SUB-AGENTS)
-
-> **Sub-agent strategy**: Spawn two worktree agents simultaneously at session start.
-> They touch completely separate directories and have zero shared files.
-> Merge both worktrees back to main when both are green.
-
----
-
-**[MOBILE-SHELL]** `apps/mobile/` — Agent 1
-
-Dependencies to install (run in `apps/mobile`):
-- `nativewind` v4 + `tailwindcss` (styling)
-- `zustand` (auth store)
-- `@tanstack/react-query` (server state)
-- `expo-secure-store` (token storage)
-- `axios` (HTTP client)
-- `expo-notifications` (push token registration)
-- `socket.io-client` (WebSocket)
-
-File tree to scaffold:
-```
-apps/mobile/src/
-├── lib/
-│   ├── api.ts                ← axios instance with JWT interceptor + refresh logic
-│   └── queryClient.ts        ← TanStack Query client
-├── store/
-│   └── auth.store.ts         ← Zustand store: user, accessToken, refreshToken, actions
-├── hooks/
-│   ├── useEvents.ts          ← useQuery for GET /events
-│   └── useArtisans.ts        ← useQuery for GET /artisans
-└── app/
-    ├── _layout.tsx           ← root layout: font load, QueryClientProvider, auth redirect
-    ├── (auth)/
-    │   ├── _layout.tsx       ← Stack navigator
-    │   ├── login.tsx         ← email/password form → POST /auth/login
-    │   └── register.tsx      ← displayName + email + password + role picker
-    └── (tabs)/
-        ├── _layout.tsx       ← Tabs navigator (Home, Explore, Profile, Notifications)
-        ├── index.tsx         ← Event list: useEvents hook, FlatList, EventCard component
-        ├── explore.tsx       ← Placeholder (Mapbox map in Phase 4)
-        ├── profile.tsx       ← GET /auth/me, show user info, logout button
-        └── notifications.tsx ← GET /notifications, unread badge, mark-read on press
-```
-
-Acceptance criteria:
-- `pnpm --filter mobile typecheck` → zero errors
-- Login/register flow works against the API (Docker must be running)
-- Tabs render with real data from the seed
-- Auth token persisted across app restarts (SecureStore)
-
----
-
-**[WEB-SHELL]** `apps/web/` — Agent 2
-
-Dependencies to install (run in `apps/web`):
-```bash
-pnpm dlx shadcn@latest init   # initialise shadcn/ui (choose: New York style, zinc)
-pnpm --filter web add zustand @tanstack/react-query axios
-```
-Individual shadcn components needed: `button`, `card`, `input`, `label`, `badge`,
-`table`, `sidebar`, `separator`, `avatar`, `dropdown-menu`, `dialog`, `select`
-
-File tree to scaffold:
-```
-apps/web/app/
-├── (auth)/
-│   ├── layout.tsx            ← centred card layout
-│   └── login/page.tsx        ← email/password → POST /auth/login → cookie
-├── (dashboard)/
-│   ├── layout.tsx            ← sidebar + topbar shell (shadcn Sidebar)
-│   ├── page.tsx              ← redirect → /events
-│   ├── events/
-│   │   ├── page.tsx          ← event list table (TanStack Query → GET /events)
-│   │   └── new/page.tsx      ← create event form → POST /events
-│   ├── artisans/
-│   │   └── page.tsx          ← artisan list with KM0 badge
-│   └── participants/
-│       └── [eventId]/page.tsx ← participant list for an event, approve/reject buttons
-├── lib/
-│   ├── api.ts                ← axios instance (reads token from cookie/localStorage)
-│   └── queryClient.ts
-└── middleware.ts             ← Next.js middleware: redirect to /login if no token
-```
-
-Acceptance criteria:
-- `pnpm --filter web typecheck` → zero errors
-- Login page posts to API and stores token
-- Dashboard sidebar renders with correct nav items
-- Events page fetches and displays seed data
-- Middleware redirects unauthenticated users
-
----
-
-**Session start checklist for Phase 3:**
-1. Read PROGRESS.md ✓
-2. `docker compose up -d` (PostgreSQL + Redis required by API)
-3. `pnpm --filter api dev` (API must be running for frontend integration)
-4. Spawn Agent 1 (mobile) + Agent 2 (web) **in the same message** with `isolation: "worktree"`
-5. When both complete, merge worktrees and run full typecheck
+- [ ] **Mobile: event detail screen** `app/event/[id].tsx` — full event info, RSVP button (USER), apply button (ARTISAN), participant list
+- [ ] **Mobile: artisan detail screen** `app/artisan/[id].tsx` — business info, KM0 badge, products list
+- [ ] **Mobile: artisan profile section** — ARTISAN-specific view on profile tab (GET /artisans/me)
+- [ ] **Web: publish event button** — currently events can only be created as DRAFT; need publish action in the events table
+- [ ] **Web: link from events table to participants** — click event row → go to `/participants/[eventId]`
 
 ### Phase 4 — Feature Modules
-- [ ] Venue Map (react-konva editor + mobile viewer)
-- [ ] Smart Search + recommendation engine (content-based)
-- [ ] Analytics Dashboard (Recharts)
-- [ ] Weather alerts (Open-Meteo)
-- [ ] QR code system per artisan booth
-- [ ] Favorites / Follow system
+
+- [ ] Venue Map editor (web, react-konva) — TownHall uploads floor plan image, places zones
+- [ ] Venue Map viewer (mobile) — ARTISANs place their booth pin (x%, y%)
+- [ ] Smart search / recommendation engine (content-based filtering by categories + distance)
+- [ ] Analytics dashboard for TownHall (Recharts — attendee counts, RSVP trends)
+- [ ] Weather alerts integration (Open-Meteo API, triggered alert when bad weather)
+- [ ] QR code per artisan booth (mobile scanner)
+- [ ] Firebase FCM push notifications (device token registration + delivery)
 
 ### Phase 5 — Polish
-- [ ] Offline caching (AsyncStorage + background sync)
-- [ ] i18n (ca/es/en)
+
+- [ ] Offline caching (AsyncStorage + background sync on mobile)
+- [ ] i18n (ca / es / en) — currently hardcoded Spanish
 - [ ] Accessibility (WCAG 2.1 basics)
-- [ ] Test suite (Vitest + Supertest, Jest mobile)
+- [ ] Test suite (Vitest + Supertest for API, Jest for mobile)
+- [ ] Deployment (Render for API, Vercel for web, Expo EAS for mobile)
 
 ---
 
@@ -209,16 +142,30 @@ Acceptance criteria:
 | API Deployment | Render (free tier) | No CC required |
 | Web Deployment | Vercel (free hobby) | Native Next.js |
 | Mobile Build | Expo EAS (free tier) | 30 builds/month |
+| Event lat/lng | Optional (Float?) | Not all organizers have GPS data; can be added when editing |
 
 ---
 
 ## Critical Implementation Notes
 
-- **Prisma 7 + NestJS**: `prisma-client-js` generator outputs to `generated/prisma/`. WASM client engine requires `@prisma/adapter-pg` — pass `new PrismaPg(pool)` to `new PrismaClient({ adapter })`. Pool must be ended in `onModuleDestroy`.
-- **TypeScript isolatedModules**: Interface types used in decorated method signatures must use `import type { ... }` (TS1272).
-- **pnpm 11 allowBuilds**: `pnpm-workspace.yaml` must have `allowBuilds` for `sharp`, `unrs-resolver`, `bcrypt`, `@prisma/engines`, `prisma`, `esbuild`.
-- **Docker Compose v2**: No `version:` key in `docker-compose.yml`.
-- **Seed command**: Configured in `prisma.config.ts` `migrations.seed` field (not package.json in Prisma 7). Also kept in package.json `"prisma": { "seed": "tsx prisma/seed.ts" }` for `npx prisma db seed` fallback.
+- **Prisma 7 + NestJS dev**: Generator output is in `src/generated/prisma/` (inside sourceRoot). `ts-node/register` is used instead of `nest start --watch` because tsx/esbuild does not emit `emitDecoratorMetadata`, which NestJS DI requires. Dev script: `node --watch -r ts-node/register -r tsconfig-paths/register src/main.ts`
+- **Next.js 16 proxy**: `middleware.ts` renamed to `proxy.ts` and function renamed from `middleware` to `proxy` (Next.js 16 convention change).
+- **shadcn + Tailwind v4**: shadcn uses `hsl(var(--primary))` CSS variables. Must define all variables in `:root {}` AND map them in `@theme inline {}` in `globals.css`. shadcn `init` is interactive (arrow-key prompts) — write `components.json` manually then use `shadcn add --yes`.
+- **CORS**: `origin: true` in development mirrors the request origin (allows any localhost variant). Production uses `FRONTEND_URL` env var.
+- **TypeScript isolatedModules**: Interface types in decorated method signatures must use `import type { ... }` (TS1272).
+- **pnpm 11 allowBuilds**: `pnpm-workspace.yaml` must list `sharp`, `unrs-resolver`, `bcrypt`, `@prisma/engines`, `prisma`, `esbuild`.
+
+---
+
+## Demo Credentials
+
+| Role | Email | Password |
+|---|---|---|
+| Ayuntamiento | ajuntament@vilanova.cat | password123 |
+| Artesano 1 | ceramiques@example.com | password123 |
+| Artesano 2 | mel@example.com | password123 |
+| Usuario 1 | anna@example.com | password123 |
+| Usuario 2 | marc@example.com | password123 |
 
 ---
 
@@ -229,7 +176,8 @@ Acceptance criteria:
 | Root workspace config | `package.json`, `pnpm-workspace.yaml`, `tsconfig.base.json` |
 | NestJS API | `apps/api/src/` |
 | Prisma schema + migrations | `apps/api/prisma/` |
-| Generated Prisma client | `apps/api/generated/prisma/` |
+| Generated Prisma client | `apps/api/src/generated/prisma/` |
+| API dev script | `node --watch -r ts-node/register -r tsconfig-paths/register src/main.ts` |
 | Expo Mobile | `apps/mobile/src/` |
 | Next.js Web | `apps/web/app/` |
 | Shared Types/Enums | `packages/shared-types/src/` |
@@ -241,5 +189,7 @@ Acceptance criteria:
 ## Next Session Start Checklist
 1. Read this file ✓
 2. Run `docker compose up -d` (PostgreSQL 16 + Redis 7)
-3. `cd apps/api && pnpm exec prisma db seed` (idempotent — safe to re-run)
-4. Begin Phase 2: Events, Artisans, Realtime modules
+3. Terminal 1: `pnpm --filter api dev` (API on port 3000)
+4. Terminal 2: from `apps/web/` → `npx next dev -p 3001` (Web on port 3001)
+5. Login at http://localhost:3001/login with `ajuntament@vilanova.cat` / `password123`
+6. Begin next priority: mobile event detail screen (`app/event/[id].tsx`)
