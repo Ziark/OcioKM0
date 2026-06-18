@@ -5,7 +5,7 @@
 ---
 
 ## Last Updated
-2026-06-18 — Phase 2 Track A complete (commit pending)
+2026-06-18 — Phase 2 complete (commits 7338aec · 65239d5 · fc6c864)
 
 ---
 
@@ -42,7 +42,7 @@
 
 ## In Progress
 
-Nothing — ready to begin Phase 2 Track B (Artisans + Products).
+Nothing — ready to begin Phase 3 (mobile + web frontend shells).
 
 ---
 
@@ -72,18 +72,105 @@ Nothing — ready to begin Phase 2 Track B (Artisans + Products).
 - [x] FCM push delivery: deferred — schema has no device token field (Phase 4 item)
 - [x] Typecheck: zero errors
 
-### Phase 3 — Frontend Foundation (Parallel)
+### Phase 3 — Frontend Shells (next session — use PARALLEL SUB-AGENTS)
 
-**[MOBILE-SHELL]**:
-- [ ] Install NativeWind v4, Zustand, TanStack Query, expo-secure-store
-- [ ] Expo Router file tree: `(auth)/login`, `(auth)/register`, `(tabs)/index`, `(tabs)/explore`, `(tabs)/profile`
-- [ ] Auth Zustand store + token persistence
-- [ ] API client hook (TanStack Query)
+> **Sub-agent strategy**: Spawn two worktree agents simultaneously at session start.
+> They touch completely separate directories and have zero shared files.
+> Merge both worktrees back to main when both are green.
 
-**[WEB-SHELL]**:
-- [ ] Install shadcn/ui, Recharts, react-map-gl, Zustand, TanStack Query
-- [ ] Sidebar layout, auth middleware, dashboard placeholders
-- [ ] Event list page, artisan list page
+---
+
+**[MOBILE-SHELL]** `apps/mobile/` — Agent 1
+
+Dependencies to install (run in `apps/mobile`):
+- `nativewind` v4 + `tailwindcss` (styling)
+- `zustand` (auth store)
+- `@tanstack/react-query` (server state)
+- `expo-secure-store` (token storage)
+- `axios` (HTTP client)
+- `expo-notifications` (push token registration)
+- `socket.io-client` (WebSocket)
+
+File tree to scaffold:
+```
+apps/mobile/src/
+├── lib/
+│   ├── api.ts                ← axios instance with JWT interceptor + refresh logic
+│   └── queryClient.ts        ← TanStack Query client
+├── store/
+│   └── auth.store.ts         ← Zustand store: user, accessToken, refreshToken, actions
+├── hooks/
+│   ├── useEvents.ts          ← useQuery for GET /events
+│   └── useArtisans.ts        ← useQuery for GET /artisans
+└── app/
+    ├── _layout.tsx           ← root layout: font load, QueryClientProvider, auth redirect
+    ├── (auth)/
+    │   ├── _layout.tsx       ← Stack navigator
+    │   ├── login.tsx         ← email/password form → POST /auth/login
+    │   └── register.tsx      ← displayName + email + password + role picker
+    └── (tabs)/
+        ├── _layout.tsx       ← Tabs navigator (Home, Explore, Profile, Notifications)
+        ├── index.tsx         ← Event list: useEvents hook, FlatList, EventCard component
+        ├── explore.tsx       ← Placeholder (Mapbox map in Phase 4)
+        ├── profile.tsx       ← GET /auth/me, show user info, logout button
+        └── notifications.tsx ← GET /notifications, unread badge, mark-read on press
+```
+
+Acceptance criteria:
+- `pnpm --filter mobile typecheck` → zero errors
+- Login/register flow works against the API (Docker must be running)
+- Tabs render with real data from the seed
+- Auth token persisted across app restarts (SecureStore)
+
+---
+
+**[WEB-SHELL]** `apps/web/` — Agent 2
+
+Dependencies to install (run in `apps/web`):
+```bash
+pnpm dlx shadcn@latest init   # initialise shadcn/ui (choose: New York style, zinc)
+pnpm --filter web add zustand @tanstack/react-query axios
+```
+Individual shadcn components needed: `button`, `card`, `input`, `label`, `badge`,
+`table`, `sidebar`, `separator`, `avatar`, `dropdown-menu`, `dialog`, `select`
+
+File tree to scaffold:
+```
+apps/web/app/
+├── (auth)/
+│   ├── layout.tsx            ← centred card layout
+│   └── login/page.tsx        ← email/password → POST /auth/login → cookie
+├── (dashboard)/
+│   ├── layout.tsx            ← sidebar + topbar shell (shadcn Sidebar)
+│   ├── page.tsx              ← redirect → /events
+│   ├── events/
+│   │   ├── page.tsx          ← event list table (TanStack Query → GET /events)
+│   │   └── new/page.tsx      ← create event form → POST /events
+│   ├── artisans/
+│   │   └── page.tsx          ← artisan list with KM0 badge
+│   └── participants/
+│       └── [eventId]/page.tsx ← participant list for an event, approve/reject buttons
+├── lib/
+│   ├── api.ts                ← axios instance (reads token from cookie/localStorage)
+│   └── queryClient.ts
+└── middleware.ts             ← Next.js middleware: redirect to /login if no token
+```
+
+Acceptance criteria:
+- `pnpm --filter web typecheck` → zero errors
+- Login page posts to API and stores token
+- Dashboard sidebar renders with correct nav items
+- Events page fetches and displays seed data
+- Middleware redirects unauthenticated users
+
+---
+
+**Session start checklist for Phase 3:**
+1. Read PROGRESS.md ✓
+2. `docker compose up -d` (PostgreSQL + Redis required by API)
+3. `pnpm --filter api dev` (API must be running for frontend integration)
+4. Spawn Agent 1 (mobile) + Agent 2 (web) **in the same message** with `isolation: "worktree"`
+5. When both complete, merge worktrees and run full typecheck
 
 ### Phase 4 — Feature Modules
 - [ ] Venue Map (react-konva editor + mobile viewer)
