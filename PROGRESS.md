@@ -58,9 +58,10 @@ Nothing — ready to begin Phase 2 Track B (Artisans + Products).
 - [x] RSVP: create/update/cancel attendance — wired into EventsModule
 - [x] Typecheck: zero errors
 
-**[ARTISANS module]** `apps/api/src/artisans/`, `src/products/`:
-- [ ] `ArtisansModule`: get profile, update profile, list artisans (filterable), KM0 verify (TOWN_HALL only)
-- [ ] `ProductsModule`: CRUD for EventProduct within a participation (ARTISAN only)
+**[ARTISANS module]** ✅ Track B complete
+- [x] `ArtisansModule`: list (search, km0Only filter, paginated), findOne (with recent participations), getMe, updateMe
+- [x] `ProductsModule`: list (public), create/update/delete (ARTISAN, ownership-guarded)
+- [x] Typecheck: zero errors
 
 **[REALTIME module]** `apps/api/src/notifications/`, `src/alerts/`, gateway:
 - [ ] Install `@nestjs/websockets socket.io firebase-admin`

@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { EventsModule } from './events/events.module';
 import { TownHallsModule } from './town-halls/town-halls.module';
 import { EventParticipantsModule } from './event-participants/event-participants.module';
+import { ArtisansModule } from './artisans/artisans.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { EventParticipantsModule } from './event-participants/event-participants
     EventsModule,
     TownHallsModule,
     EventParticipantsModule,
+    ArtisansModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
