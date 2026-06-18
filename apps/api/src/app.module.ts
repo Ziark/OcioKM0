@@ -9,6 +9,9 @@ import { TownHallsModule } from './town-halls/town-halls.module';
 import { EventParticipantsModule } from './event-participants/event-participants.module';
 import { ArtisansModule } from './artisans/artisans.module';
 import { ProductsModule } from './products/products.module';
+import { RealtimeModule } from './realtime/realtime.module';
+import { AlertsModule } from './alerts/alerts.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { ProductsModule } from './products/products.module';
     EventParticipantsModule,
     ArtisansModule,
     ProductsModule,
+    RealtimeModule,
+    AlertsModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

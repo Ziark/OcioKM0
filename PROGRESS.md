@@ -63,11 +63,14 @@ Nothing — ready to begin Phase 2 Track B (Artisans + Products).
 - [x] `ProductsModule`: list (public), create/update/delete (ARTISAN, ownership-guarded)
 - [x] Typecheck: zero errors
 
-**[REALTIME module]** `apps/api/src/notifications/`, `src/alerts/`, gateway:
-- [ ] Install `@nestjs/websockets socket.io firebase-admin`
-- [ ] `NotificationsModule`: create, mark-read, list user notifications
-- [ ] `AlertsModule`: broadcast alert to event attendees
-- [ ] Socket.io gateway — emit `notification` event on create
+**[REALTIME module]** ✅ Track C complete
+- [x] `@nestjs/websockets`, `@nestjs/platform-socket.io`, `socket.io` installed
+- [x] `RealtimeGateway`: Socket.io gateway, join_event/leave_event rooms, `broadcastAlert()` helper
+- [x] `IoAdapter` wired into `main.ts`
+- [x] `AlertsModule`: create alert (TOWN_HALL, owns event), creates Notification records for all GOING/INTERESTED attendees, emits Socket.io broadcast to `event_${id}` room; list alerts by event (public)
+- [x] `NotificationsModule`: list (paginated, unreadOnly filter, returns unreadCount), markRead, markAllRead
+- [x] FCM push delivery: deferred — schema has no device token field (Phase 4 item)
+- [x] Typecheck: zero errors
 
 ### Phase 3 — Frontend Foundation (Parallel)
 
