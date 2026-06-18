@@ -28,6 +28,27 @@ export class TownHallsService {
     return townHall;
   }
 
+  async listMyEvents(userId: string, page = 1, limit = 20) {
+    const townHall = await this.prisma.townHall.findUnique({ where: { userId } });
+    if (!townHall) throw new NotFoundException('Town hall profile not found');
+
+    const safeLimit = Math.min(limit, 100);
+    const where = { townHallId: townHall.id };
+
+    const [total, data] = await this.prisma.$transaction([
+      this.prisma.event.count({ where }),
+      this.prisma.event.findMany({
+        where,
+        orderBy: { startDate: 'desc' },
+        skip: (page - 1) * safeLimit,
+        take: safeLimit,
+        include: { _count: { select: { participants: true, attendees: true } } },
+      }),
+    ]);
+
+    return { data, total, page, limit: safeLimit };
+  }
+
   async listEvents(id: string, page = 1, limit = 20) {
     const townHall = await this.prisma.townHall.findUnique({ where: { id } });
     if (!townHall) throw new NotFoundException('Town hall not found');

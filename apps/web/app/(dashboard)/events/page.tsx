@@ -23,6 +23,14 @@ interface EventDto {
   categories: string[];
 }
 
+const statusLabel: Record<EventDto['status'], string> = {
+  DRAFT: 'Borrador',
+  PUBLISHED: 'Publicado',
+  ACTIVE: 'Activo',
+  COMPLETED: 'Finalizado',
+  CANCELLED: 'Cancelado',
+};
+
 const statusVariant: Record<EventDto['status'], 'default' | 'secondary' | 'destructive' | 'outline'> = {
   DRAFT: 'secondary',
   PUBLISHED: 'default',
@@ -33,16 +41,17 @@ const statusVariant: Record<EventDto['status'], 'default' | 'secondary' | 'destr
 
 export default function EventsPage() {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['events'],
-    queryFn: () => api.get<{ data: EventDto[] }>('/events').then((r) => r.data.data),
+    queryKey: ['my-events'],
+    queryFn: () =>
+      api.get<{ data: EventDto[] }>('/town-halls/me/events').then((r) => r.data.data),
   });
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Eventos</h1>
+        <h1 className="text-2xl font-bold">Mis eventos</h1>
         <Link href="/events/new">
-          <Button>Crear evento</Button>
+          <Button className="bg-green-700 hover:bg-green-800 text-white">Crear evento</Button>
         </Link>
       </div>
 
@@ -69,7 +78,9 @@ export default function EventsPage() {
                   {new Date(event.startDate).toLocaleDateString('es-ES')}
                 </TableCell>
                 <TableCell>
-                  <Badge variant={statusVariant[event.status]}>{event.status}</Badge>
+                  <Badge variant={statusVariant[event.status]}>
+                    {statusLabel[event.status]}
+                  </Badge>
                 </TableCell>
                 <TableCell className="text-zinc-500 text-sm">
                   {event.categories.join(', ')}
@@ -79,7 +90,7 @@ export default function EventsPage() {
             {data.length === 0 && (
               <TableRow>
                 <TableCell colSpan={5} className="text-center text-zinc-500 py-8">
-                  Sin eventos.
+                  Sin eventos todavía.
                 </TableCell>
               </TableRow>
             )}

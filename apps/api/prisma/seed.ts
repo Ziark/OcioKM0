@@ -21,10 +21,10 @@ async function main() {
       passwordHash: await bcrypt.hash('password123', SALT_ROUNDS),
       role: Role.TOWN_HALL,
       verified: true,
-      profile: { create: { displayName: 'Ajuntament de Vilanova' } },
+      profile: { create: { displayName: 'Ayuntamiento de Vilanova' } },
       townHall: {
         create: {
-          name: 'Ajuntament de Vilanova del Camí',
+          name: 'Ayuntamiento de Vilanova del Camí',
           municipality: 'Vilanova del Camí',
           province: 'Barcelona',
           verified: true,
@@ -47,8 +47,8 @@ async function main() {
       artisan: {
         create: {
           businessName: 'Can Terrissa',
-          description: 'Ceràmica artesanal feta a mà des de 1985',
-          categories: ['ceramics', 'crafts'],
+          description: 'Cerámica artesanal hecha a mano desde 1985',
+          categories: ['ceramica', 'artesania'],
           km0Certified: true,
           verifiedById: townHallUser.townHall!.id,
         },
@@ -56,6 +56,14 @@ async function main() {
     },
     include: { artisan: true },
   });
+
+  // Update description if artisan already existed
+  if (artisan1User.artisan) {
+    await prisma.artisan.update({
+      where: { id: artisan1User.artisan.id },
+      data: { description: 'Cerámica artesanal hecha a mano desde 1985', categories: ['ceramica', 'artesania'] },
+    });
+  }
 
   const artisan2User = await prisma.user.upsert({
     where: { email: 'mel@example.com' },
@@ -65,12 +73,12 @@ async function main() {
       passwordHash: await bcrypt.hash('password123', SALT_ROUNDS),
       role: Role.ARTISAN,
       verified: true,
-      profile: { create: { displayName: 'Mel de la Muntanya' } },
+      profile: { create: { displayName: 'Miel de la Montaña' } },
       artisan: {
         create: {
-          businessName: 'Mel de la Muntanya',
-          description: 'Mel ecològica i productes d\'abella locals',
-          categories: ['food', 'organic'],
+          businessName: 'Miel de la Montaña',
+          description: 'Miel ecológica y productos de abeja locales',
+          categories: ['alimentacion', 'ecologico'],
           km0Certified: true,
           verifiedById: townHallUser.townHall!.id,
         },
@@ -78,6 +86,17 @@ async function main() {
     },
     include: { artisan: true },
   });
+
+  if (artisan2User.artisan) {
+    await prisma.artisan.update({
+      where: { id: artisan2User.artisan.id },
+      data: {
+        businessName: 'Miel de la Montaña',
+        description: 'Miel ecológica y productos de abeja locales',
+        categories: ['alimentacion', 'ecologico'],
+      },
+    });
+  }
 
   // ─── Regular Users ────────────────────────────────────────────────────────
   const users = await Promise.all([
@@ -89,12 +108,12 @@ async function main() {
         passwordHash: await bcrypt.hash('password123', SALT_ROUNDS),
         role: Role.USER,
         verified: true,
-        profile: { create: { displayName: 'Anna Garcia' } },
+        profile: { create: { displayName: 'Anna García' } },
         preferences: {
           create: {
-            favoriteCategories: ['ceramics', 'food'],
+            favoriteCategories: ['ceramica', 'alimentacion'],
             maxDistanceKm: 25,
-            language: 'ca',
+            language: 'es',
           },
         },
       },
@@ -110,8 +129,8 @@ async function main() {
         profile: { create: { displayName: 'Marc Puig' } },
         preferences: {
           create: {
-            favoriteCategories: ['food', 'organic'],
-            language: 'ca',
+            favoriteCategories: ['alimentacion', 'ecologico'],
+            language: 'es',
           },
         },
       },
@@ -132,19 +151,23 @@ async function main() {
   // ─── Event ────────────────────────────────────────────────────────────────
   const event = await prisma.event.upsert({
     where: { id: 'seed-event-001' },
-    update: {},
+    update: {
+      title: 'Feria de Primavera de Vilanova del Camí 2026',
+      description: 'La tradicional feria de primavera con artesanos locales, productos km0 y actividades para toda la familia.',
+      categories: ['feria', 'artesania', 'alimentacion', 'km0'],
+    },
     create: {
       id: 'seed-event-001',
       townHallId: townHallUser.townHall!.id,
-      title: 'Fira de Primavera de Vilanova del Camí 2026',
-      description: 'La tradicional fira de primavera amb artesans locals, productes km0 i activitats per a tota la família.',
+      title: 'Feria de Primavera de Vilanova del Camí 2026',
+      description: 'La tradicional feria de primavera con artesanos locales, productos km0 y actividades para toda la familia.',
       startDate: new Date('2026-04-25T09:00:00Z'),
       endDate: new Date('2026-04-27T20:00:00Z'),
       locationLat: 41.5667,
       locationLng: 1.8833,
-      locationAddr: 'Plaça de la Vila, Vilanova del Camí, Barcelona',
+      locationAddr: 'Plaza de la Vila, Vilanova del Camí, Barcelona',
       status: EventStatus.PUBLISHED,
-      categories: ['fair', 'crafts', 'food', 'km0'],
+      categories: ['feria', 'artesania', 'alimentacion', 'km0'],
       maxAttendees: 500,
     },
   });
@@ -155,13 +178,13 @@ async function main() {
     update: {},
     create: {
       eventId: event.id,
-      imageUrl: 'https://placehold.co/1200x800/e8f4e8/2d5a2d?text=Planta+Fira',
+      imageUrl: 'https://placehold.co/1200x800/e8f4e8/2d5a2d?text=Plano+Feria',
       widthPx: 1200,
       heightPx: 800,
       zones: [
-        { id: 'zone-a', label: 'Zona A - Artesania', x: 5, y: 10, w: 40, h: 35 },
-        { id: 'zone-b', label: 'Zona B - Alimentació', x: 55, y: 10, w: 40, h: 35 },
-        { id: 'zone-c', label: 'Zona C - Activitats', x: 5, y: 55, w: 90, h: 35 },
+        { id: 'zone-a', label: 'Zona A - Artesanía', x: 5, y: 10, w: 40, h: 35 },
+        { id: 'zone-b', label: 'Zona B - Alimentación', x: 55, y: 10, w: 40, h: 35 },
+        { id: 'zone-c', label: 'Zona C - Actividades', x: 5, y: 55, w: 90, h: 35 },
       ],
     },
   });
@@ -198,10 +221,10 @@ async function main() {
     prisma.eventProduct.createMany({
       skipDuplicates: true,
       data: [
-        { participantId: participant1.id, name: 'Plat de terrissa gran', description: 'Plat decoratiu fet a mà, cuit a llenya', price: 45.0, category: 'ceramics', km0Certified: true },
-        { participantId: participant1.id, name: 'Bol de ceràmica', description: 'Bol multiús, verd olivera', price: 18.0, category: 'ceramics', km0Certified: true },
-        { participantId: participant2.id, name: 'Mel de bosc (500g)', description: 'Mel de flors de bosc, recollida a mà', price: 9.50, category: 'food', km0Certified: true },
-        { participantId: participant2.id, name: 'Pack degustació mel', description: '3 varietats de mel artesanal de la comarca', price: 22.0, category: 'food', km0Certified: true },
+        { participantId: participant1.id, name: 'Plato de barro grande', description: 'Plato decorativo hecho a mano, cocido en horno de leña', price: 45.0, category: 'ceramica', km0Certified: true },
+        { participantId: participant1.id, name: 'Cuenco de cerámica', description: 'Cuenco multiusos, color verde oliva', price: 18.0, category: 'ceramica', km0Certified: true },
+        { participantId: participant2.id, name: 'Miel de bosque (500g)', description: 'Miel de flores silvestres, recogida a mano', price: 9.50, category: 'alimentacion', km0Certified: true },
+        { participantId: participant2.id, name: 'Pack degustación miel', description: '3 variedades de miel artesanal de la comarca', price: 22.0, category: 'alimentacion', km0Certified: true },
       ],
     }),
   ]);
@@ -226,14 +249,14 @@ async function main() {
     ],
   });
 
-  console.log('✅ Seed complete');
-  console.log('─── Demo credentials ───────────────────────');
-  console.log('Town Hall:  ajuntament@vilanova.cat / password123');
-  console.log('Artisan 1:  ceramiques@example.com / password123');
-  console.log('Artisan 2:  mel@example.com        / password123');
-  console.log('User 1:     anna@example.com        / password123');
-  console.log('User 2:     marc@example.com        / password123');
-  console.log('────────────────────────────────────────────');
+  console.log('✅ Seed completado');
+  console.log('─── Credenciales de demo ───────────────────────');
+  console.log('Ayuntamiento:  ajuntament@vilanova.cat / password123');
+  console.log('Artesano 1:    ceramiques@example.com  / password123');
+  console.log('Artesano 2:    mel@example.com         / password123');
+  console.log('Usuario 1:     anna@example.com        / password123');
+  console.log('Usuario 2:     marc@example.com        / password123');
+  console.log('────────────────────────────────────────────────');
 }
 
 main()

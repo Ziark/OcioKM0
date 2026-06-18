@@ -35,6 +35,21 @@ export class TownHallsController {
     return this.townHallsService.updateMe(user.sub, dto);
   }
 
+  @Get('me/events')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.TOWN_HALL)
+  listMyEvents(
+    @CurrentUser() user: JwtPayload,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.townHallsService.listMyEvents(
+      user.sub,
+      page ? parseInt(page, 10) : 1,
+      limit ? parseInt(limit, 10) : 20,
+    );
+  }
+
   @Get('me/artisans')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.TOWN_HALL)
